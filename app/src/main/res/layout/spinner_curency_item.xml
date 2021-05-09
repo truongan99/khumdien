@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/border_item"
+    android:gravity="center_vertical">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:src="@drawable/vietnam"
+        android:id="@+id/img_currency_avt"
+        android:background="@color/backgr"/>
+        <TextView
+            android:id="@+id/tv_currency_name"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:text="@string/united_states_dollar"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/duru_sans"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_currency_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vnd"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/duru_sans"
+            />
+</LinearLayout>
