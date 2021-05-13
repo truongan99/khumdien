@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_margin="5dp">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <Button
+            android:id="@+id/btn_wallet_img_home_fragment"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="5dp"
+            android:src="@drawable/wallet_icon_5"
+            android:layout_gravity="center"
+            android:background="@drawable/circle_img2"
+            android:id="@+id/iv_wallet_img_home_fragment"/>
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+
+            android:src="@drawable/dropdown"
+            android:layout_gravity="right|center" />
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name Wallet"
+            android:textSize="15dp"
+            android:id="@+id/tv_namewallet_home_fragment"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 vnd"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:id="@+id/tv_currency_home_fragment"/>
+    </LinearLayout>
+</LinearLayout>

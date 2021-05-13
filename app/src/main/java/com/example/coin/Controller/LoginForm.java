@@ -40,7 +40,7 @@ public class LoginForm extends AppCompatActivity {
 
 
     private void launchHomeScreen() {
-        Intent intent = new Intent(LoginForm.this, Home.class);
+        Intent intent = new Intent(LoginForm.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

@@ -4,19 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controller.MainActivity">
+    tools:context=".Controller.MainActivity"
+    >
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/frame_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_alignParentStart="true"
         />
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu"
-        android:background="@drawable/button_radius"
-        />
+        android:id="@+id/bottomNavigation"
+        app:mbn_circleColor="@color/circleColer"
+        app:mbn_backgroundBottomColor="@color/background_bottom_coler"
+        app:mbn_countBackgroundColor="@color/countBackground_coler"
+        app:mbn_countTextColor="@color/countTextColer"
+        app:mbn_defaultIconColor="@color/item_default"
+        app:mbn_selectedIconColor="@color/item_selected"
+        app:mbn_shadowColor="@color/shadow_coler"/>
 </RelativeLayout>

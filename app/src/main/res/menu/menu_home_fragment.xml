@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_fitter_time_home_fragment"
+        android:title="@string/about_time"
+        />
+
+    <item
+        android:id="@+id/navigation_fitter_group_home_fragment"
+        android:title="@string/group_view"/>
+
+    <item
+        android:id="@+id/navigation_transfer_home_fragment"
+        android:title="@string/transfer"/>
+</menu>

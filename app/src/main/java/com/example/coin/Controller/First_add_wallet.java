@@ -71,6 +71,9 @@ public class First_add_wallet extends AppCompatActivity {
                     AppDB db = new AppDB(getApplicationContext());
                     db.InsertWallet(wallet);
                     Toast.makeText(getApplicationContext(),"Create Wallet Done !",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(First_add_wallet.this, MainActivity.class);
+                    //gọi startActivityForResult
+                    startActivity(intent);
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(),"Wallet Name Already !",Toast.LENGTH_SHORT).show();
                 }
