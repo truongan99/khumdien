@@ -2,7 +2,8 @@
     <string name="app_name">coin</string>
     <string name="login">log in</string>
     <string name="signup">sign up</string>
-    <string name="coin">coin</string>
+    <string name="coin">Money Lover</string>
+    <string name="title">Simplest way to manage personal finances.Because money matters.</string>
     <string name="password">password</string>
     <string name="password_cf">password confirm</string>
     <string name="email_address">email address</string>

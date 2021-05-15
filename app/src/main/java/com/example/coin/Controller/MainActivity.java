@@ -1,11 +1,19 @@
 package com.example.coin.Controller;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
@@ -14,6 +22,7 @@ import com.example.coin.Home;
 import com.example.coin.Plan;
 import com.example.coin.R;
 import com.example.coin.Report;
+import com.google.android.material.tabs.TabLayout;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -24,12 +33,20 @@ public class MainActivity extends AppCompatActivity {
     private final  int ID_REPORT = 2;
     private final  int ID_PLAN = 3;
     private final  int ID_ACCOUNT = 4;
+    private TabLayout tabLayout;
     MeowBottomNavigation bottomNavigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initBottomNavigation();
+        changeStatusBarColor();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home_fragment, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void initBottomNavigation() {
@@ -44,9 +61,11 @@ public class MainActivity extends AppCompatActivity {
 
                 Fragment fragment = new Home();
                 replace(fragment);
+                setActionBar(R.layout.home_action_bar);
                 switch (item.getId()){
                     case ID_HOME:
                         fragment = new Home();
+                        setActionBar(R.layout.home_action_bar);
                         break;
                     case ID_REPORT:
                         fragment = new Report();
@@ -111,5 +130,20 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_main,fragment);
         transaction.commit();
+    }
+    private void setActionBar(int v){
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(v);
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#FFFFFFFF"));
+        getSupportActionBar().setBackgroundDrawable(colorDrawable);
+        getSupportActionBar().setElevation(0);
+    }
+    private void changeStatusBarColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.BLACK);
+        }
     }
 }

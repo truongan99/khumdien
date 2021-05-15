@@ -46,6 +46,7 @@ public class GridWalletAvtAdapter extends BaseAdapter {
                     mLayoutInflater.inflate(R.layout.wallet_avt_item, parent, false);
             avt = (ImageView) convertView.findViewById(R.id.image_item);
             convertView.setTag(avt);
+
         } else {
             avt = (ImageView) convertView.getTag();
         }

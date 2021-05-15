@@ -24,6 +24,7 @@ public class LoginForm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getSupportActionBar().hide();
         initPreferences();
         Log.d("DATA","ON MIC");
         String savedData = sharedPreferences.getString("LOGIN_STATUS", "");

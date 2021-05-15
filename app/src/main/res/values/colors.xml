@@ -12,13 +12,13 @@
     <color name="dark_blue">#102658</color>
     <color name="backgr">#fff9ef</color>
     <color name="border">#979797</color>
-
-    <color name="item_selected">#F45E0B</color>
+    <color name="bg">#EEEEEE</color>
+    <color name="item_selected">#FF000000</color>
     <color name="item_default">#F6F6F6</color>
     <color name="countTextColer">#fff</color>
     <color name="countBackground_coler">#F45E0B</color>
-    <color name="circleColer">#fff</color>
-    <color name="background_bottom_coler">#F45E0B</color>
+    <color name="circleColer">#2cb74b</color>
+    <color name="background_bottom_coler">#2cb74b</color>
     <color name="shadow_coler">#2E2E2E</color>
 
 

@@ -15,18 +15,16 @@
 
         </activity>
         <activity android:name=".Controller.LoginForm" >
-
-        </activity>
-        <activity android:name=".Controller.Login" />
-        <activity android:name=".Controller.AccountHome" />
-        <activity android:name=".Controller.Home" />
-        <activity android:name=".Controller.Signup" />
-        <activity android:name=".Controller.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Controller.Login" />
+        <activity android:name=".Controller.AccountHome" />
+        <activity android:name=".Controller.Signup" />
+        <activity android:name=".Controller.MainActivity" >
         </activity>
 
         <meta-data
