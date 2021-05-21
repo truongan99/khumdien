@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/gradient_bg"
-    tools:context=".Controller.LoginForm"
+    tools:context=".Activity.LoginForm"
     android:gravity="center">
    <LinearLayout
        android:layout_width="match_parent"

@@ -8,10 +8,6 @@
         android:id="@+id/image_item"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:scaleType="fitXY"
-        android:padding="10dp"
-        android:background="@drawable/circle_img">
-
+        android:layout_gravity="center">
     </ImageView>
 </LinearLayout>

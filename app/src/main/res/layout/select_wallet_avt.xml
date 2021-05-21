@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:background="@color/backgr">
+    android:background="@color/bg">
 
     <GridView
         android:id="@+id/grid_view_avt_wallet"
@@ -16,7 +16,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:horizontalSpacing="5dp"
-        android:numColumns="3"
+        android:numColumns="5"
         android:verticalSpacing="5dp"/>
 
 </LinearLayout>

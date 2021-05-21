@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/circleColer"
-    tools:context=".Controller.Login">
+    tools:context=".Activity.Login">
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"

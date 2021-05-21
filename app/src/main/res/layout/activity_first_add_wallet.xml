@@ -7,14 +7,13 @@
     android:orientation="vertical"
     android:gravity="center_vertical"
     android:background="@color/bg"
-    tools:context=".Controller.Login">
+    tools:context=".Activity.Login">
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:id="@+id/img_wallet_first_add"
-                android:src="@drawable/wallet_icon_7"
+                android:src="@drawable/icon_109"
                 android:padding="5dp"
-                android:background="@drawable/circle_img"
                 android:layout_gravity="center"
                 android:layout_marginTop="80dp"/>
             <android.widget.Button
