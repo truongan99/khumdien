@@ -7,11 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.coin.Bean.User_Entity;
-import com.example.coin.Bean.Wallet_Entity;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.example.coin.Bean.Account_Entity;
 
 public class AppDB extends SQLiteOpenHelper {
 
@@ -23,22 +19,46 @@ public class AppDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        doCreateTbUser(db);
-        doCreateTbWallet(db);
+        doCreateTbTaiKhoan(db);
+        doCreateTbLoai(db);
+        doCreateTbCT_Loai(db);
+        doCreateTbKeHoach(db);
+        doCreateTbCT_Vi(db);
+        doCreateTbChiTieu(db);
     }
-    public void doCreateTbUser(SQLiteDatabase db){
-        String tbUser= "CREATE TABLE tbUser (Email TEXT PRIMARY KEY,Password TEXT, Birthday DATE,Job TEXT)";
-        db.execSQL(tbUser);
-        Log.d("data","Create Table User");
+    public void doCreateTbTaiKhoan(SQLiteDatabase db){
+        String tbAccount= "CREATE TABLE IF NOT EXISTS TAIKHOAN(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TENVI NVARCHAR(100), HINHANH_VI INTEGER, DONVITIEN NVARCHAR(100), EMAIL NVARCHAR(100) UNIQUE, PASSWORD NVARCHAR(100))";
+        db.execSQL(tbAccount);
+        Log.d("data","Create Table TaiKhoan");
     }
-    public void doCreateTbWallet(SQLiteDatabase db){
-        String tbWallet= "CREATE TABLE tbWallet (Id INTEGER primary key autoincrement NOT NULL ,Email TEXT NOT NULL,WalletName TEXT NOT NULL UNIQUE,WalletImg INTEGER NOT NULL,WalletCurrency TEXT NOT NULL,FOREIGN KEY(Email) REFERENCES tbUser (Email))";
-        db.execSQL(tbWallet);
-        Log.d("data","Create Table Wallet");
+    public void doCreateTbLoai(SQLiteDatabase db){
+        String tb= "CREATE TABLE IF NOT EXISTS LOAI(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TEN NVARCHAR(100), LOAI NVARCHAR(100))";
+        db.execSQL(tb);
+        Log.d("data","Create Table Loai");
+    }
+    public void doCreateTbCT_Loai(SQLiteDatabase db){
+        String tb= "CREATE TABLE IF NOT EXISTS CT_LOAI(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TEN NVARCHAR(100), HINHANH INTEGER, ID_LOAI INTEGER , FOREIGN KEY (ID_LOAI) REFERENCES LOAI(ID))";
+        db.execSQL(tb);
+        Log.d("data","Create Table CT_Loai");
+    }
+    public void doCreateTbKeHoach(SQLiteDatabase db){
+        String tb= "CREATE TABLE IF NOT EXISTS KEHOACH(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TEN NVARCHAR(100), SOTIEN INTEGER, NGAYBATDAU DATETIME, NGAYKETTHUC DATETIME, ID_CT_LOAI INTEGER , FOREIGN KEY (ID_CT_LOAI) REFERENCES CT_LOAI(ID))";
+        db.execSQL(tb);
+        Log.d("data","Create Table KeHoach");
+    }
+    public void doCreateTbCT_Vi(SQLiteDatabase db){
+        String tb= "CREATE TABLE IF NOT EXISTS CT_VI(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TIENHIENTAI INTEGER, THOIGIAN DATETIME, ID_TAIKHOAN INTEGER , FOREIGN KEY (ID_TAIKHOAN) REFERENCES TAIKHOAN(ID))";
+        db.execSQL(tb);
+        Log.d("data","Create Table CT_vi");
+    }
+    public void doCreateTbChiTieu(SQLiteDatabase db){
+        String tb= "CREATE TABLE IF NOT EXISTS CHITIEU(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, SOTIEN INTEGER, NGAYGIAODICH DATETIME, MOTA NVARCHAR(200), ID_CT_VI INTEGER , ID_CT_LOAI INTEGER , FOREIGN KEY (ID_CT_VI) REFERENCES CT_VI(ID), FOREIGN KEY (ID_CT_LOAI) REFERENCES CT_LOAI(ID))";
+        db.execSQL(tb);
+        Log.d("data","Create Table ChiTieu");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        delTable("tbUser",db);
+        delTable("TAIKHOAN",db);
         delTable("tbWallet",db);
         Log.d("data","On Upgrade");
     }
@@ -47,73 +67,50 @@ public class AppDB extends SQLiteOpenHelper {
         onCreate(db);
         Log.d("data","On Upgrade Delete Table "+name);
     }
-    public void InsertUser(User_Entity user){
+    public void InsertAccount(Account_Entity user){
         try{
             SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("Email",user.getEmail());
-            values.put("Password",user.getPassword());
-            db.insert("tbUser",null,values);
+            values.put("EMAIL",user.getEmail());
+            values.put("PASSWORD",user.getPassword());
+            db.insert("TAIKHOAN",null,values);
             db.close();
-            Log.d("data","4. Insert");
+            Log.d("data","Insert TAIKHOAN");
         }
         catch (Exception e) {
             e.printStackTrace();
-            Log.d("data","4. Insert Fail");
+            Log.d("data","Insert TAIKHOAN Fail");
         }
     }
-    public void InsertWallet(Wallet_Entity wallet){
-        try{
-            SQLiteDatabase db = getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("Email",wallet.getUser_email());
-            values.put("WalletName",wallet.getWallet_name());
-            values.put("WalletImg",wallet.getWallet_img());
-            values.put("WalletCurrency",wallet.getWallet_currency());
-            db.insert("tbWallet",null,values);
-            db.close();
-            Log.d("data","Insert Wallet done !");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            Log.d("data","Insert Wallet Fail");
-        }
-    }
-    public void UpdateUser(User_Entity user){
+    public void UpdateAccount(Account_Entity acc){
         try{
             SQLiteDatabase db = this.getWritableDatabase();
-            String sql = "Update tbUser set Email = ?,Password = ?,Birthday = ?,Job = ?";
             ContentValues values = new ContentValues();
-            values.put("Email",user.getEmail());
-            values.put("Password",user.getPassword());
-            values.put("Birthday", String.valueOf(user.getBirthday()));////
-            values.put("Job",user.getJob());
-            db.update("tbUser",values,"Username = ?",new String[]{user.getEmail()});
+            values.put("TENVI",acc.getTenvi());
+            values.put("DONVITIEN",acc.getDon_vi_tien());
+            values.put("HINHANH_VI",acc.getHinhanh_vi());////
+            db.update("TAIKHOAN",values,"EMAIL = ?",new String[]{acc.getEmail()});
             db.close();
-            Log.d("data","5. Update");
+            Log.d("data"," Update TAIKHOAN");
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("data","5. Update Fail");
+            Log.d("data","Update TAIKHOAN Fail");
         }
     }
-    public User_Entity select_User(String email, String password){
+    public Account_Entity select_User(String email, String password){
         try{
             SQLiteDatabase db = this.getReadableDatabase();
-            String sql = "Select * From tbUser WHERE Email = ? and Password = ?";
+            String sql = "Select * From TAIKHOAN WHERE EMAIL = ? and PASSWORD = ?";
             Cursor cursor = db.rawQuery(sql,new String[]{email,password});
-            User_Entity user = new User_Entity();
+            Account_Entity acc = new Account_Entity();
             if(cursor!=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
-                if(cursor.getString(2)!=null){
-                    Date date = new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(2));
-                    user.setBirthday(date);
-                }
-
-                user.setEmail(cursor.getString(0));
-                user.setPassword(cursor.getString(1));
-
-                user.setJob(cursor.getString(3));
-                return user;
+                acc.setTenvi(cursor.getString(1));
+                acc.setHinhanh_vi(cursor.getInt(2));
+                acc.setDon_vi_tien(cursor.getString(3));
+                acc.setEmail(cursor.getString(4));
+                acc.setPassword(cursor.getString(5));
+                return acc;
             }
             else return  null;
         } catch (Exception e) {

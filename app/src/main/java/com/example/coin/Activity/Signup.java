@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.coin.Database.AppDB;
 import com.example.coin.R;
-import com.example.coin.Bean.User_Entity;
+import com.example.coin.Bean.Account_Entity;
 
 import java.util.regex.Pattern;
 
@@ -79,8 +79,8 @@ public class Signup extends AppCompatActivity {
                 if(checkEMail(edtEmail.getText().toString())&&checkPassword(edtPassword.getText().toString())&&edtPassword.getText().toString().equals(edtConfPassword.getText().toString())) {
                     try {
                         AppDB userdb = new AppDB(Signup.this);
-                        User_Entity user = new User_Entity(edtEmail.getText().toString(),edtPassword.getText().toString());
-                        userdb.InsertUser(user);
+                        Account_Entity acc = new Account_Entity(edtEmail.getText().toString(),edtPassword.getText().toString());
+                        userdb.InsertAccount(acc);
                         Intent intent = new Intent(Signup.this, Login.class);
                         startActivity(intent);
                         finish();

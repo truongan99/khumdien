@@ -14,8 +14,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.coin.Adapter.CurrencyAdapter;
+import com.example.coin.Bean.Account_Entity;
 import com.example.coin.Bean.Currency_Class;
-import com.example.coin.Bean.Wallet_Entity;
 import com.example.coin.Database.AppDB;
 import com.example.coin.R;
 
@@ -32,11 +32,14 @@ public class First_add_wallet extends AppCompatActivity {
     public static final int REQUEST_AVT=113;
     private String wallet_currency;
     private  int avt_wallet = R.drawable.vietnam;
+    private String EMAIL_USER;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_add_wallet);
         this.getSupportActionBar().hide();
+        Intent intent = getIntent();
+        EMAIL_USER = intent.getStringExtra("USER_LOGIN");
         initCurrencyData();
         setControl();
         setEvent();
@@ -47,12 +50,12 @@ public class First_add_wallet extends AppCompatActivity {
         sp_currency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                wallet_currency = currencyList.get(position).getName();
+                wallet_currency = currencyList.get(position).getSymbol();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                wallet_currency = currencyList.get(0).getName();
+                wallet_currency = currencyList.get(0).getSymbol();
             }
         });
         btn_change_avt.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +71,10 @@ public class First_add_wallet extends AppCompatActivity {
             public void onClick(View v) {
                 String wallet_name = edt_wallet_name.getText().toString();
                 String email_user = Login.user_email;
-                Wallet_Entity wallet = new Wallet_Entity(email_user,wallet_name,avt_wallet,wallet_currency);
+                Account_Entity wallet = new Account_Entity(email_user,wallet_name,wallet_currency,avt_wallet);
                 try {
                     AppDB db = new AppDB(getApplicationContext());
-                    db.InsertWallet(wallet);
+                    db.UpdateAccount(wallet);
                     Toast.makeText(getApplicationContext(),"Create Wallet Done !",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(First_add_wallet.this, MainActivity.class);
                     //gọi startActivityForResult

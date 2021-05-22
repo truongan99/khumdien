@@ -29,7 +29,7 @@ public class LoginForm extends AppCompatActivity {
         Log.d("DATA","ON MIC");
         String savedData = sharedPreferences.getString("LOGIN_STATUS", "");
 
-        if (savedData.equals("")) {
+        if (!savedData.equals("")) {
             launchHomeScreen();
             Log.d("DATA","Chuyển màn hình");
         }

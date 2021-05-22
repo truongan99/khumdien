@@ -11,14 +11,14 @@
         android:theme="@style/Theme.Coin">
         <activity android:name=".Activity.AddTransaction"></activity>
         <activity android:name=".Activity.SelectWalletAvtActivity"></activity>
-        <activity android:name=".Activity.First_add_wallet">
+        <activity android:name=".Activity.First_add_wallet"></activity>
+        <activity android:name=".Activity.LoginForm">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.LoginForm"></activity>
         <activity android:name=".Activity.Login" />
         <activity android:name=".Activity.AccountHome" />
         <activity android:name=".Activity.Signup" />

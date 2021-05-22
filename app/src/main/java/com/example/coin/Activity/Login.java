@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.coin.Database.AppDB;
 import com.example.coin.R;
-import com.example.coin.Bean.User_Entity;
+import com.example.coin.Bean.Account_Entity;
 
 public class Login extends AppCompatActivity {
 
@@ -43,18 +43,24 @@ public class Login extends AppCompatActivity {
                         String username = username_edt.getText().toString();
                         String password = password_edt.getText().toString();
                         AppDB userdb = new AppDB(Login.this);
-                        User_Entity user = userdb.select_User(username,password);
+                        Account_Entity user = userdb.select_User(username,password);
 
                         if(user==null) {
                             title_view.setText("username or password is incorrect");
-                            title_view.setTextSize(10);
-                        }else{
+                            title_view.setTextSize(20);
+                        }
+                        else if (user.getTenvi()==null){
                             user_email = user.getEmail();
                             Intent intent = new Intent(Login.this, First_add_wallet.class);
                             startActivity(intent);
-                            intent.putExtra("USER_LOGIN",user.getEmail());
                             setResult(Activity.RESULT_OK,intent);
+                            intent.putExtra("USER_LOGIN",user.getEmail());
                             finish();
+                        }
+                        else if(user.getTenvi()!=null&&user.getDon_vi_tien()!=null&&user.getHinhanh_vi()!=null) {
+                            user_email = user.getEmail();
+                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            startActivity(intent);
                         }
                     }catch (Exception e){
                         e.printStackTrace();
