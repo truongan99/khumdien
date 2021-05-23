@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -124,12 +125,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    public void changeBottomNavigationHide() {
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+        bottomNavigation.setVisibility(View.INVISIBLE);
+    }
+
+    public void changeBottomNavigationShow() {
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+        bottomNavigation.setVisibility(View.VISIBLE);
+    }
     private void replace(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_main,fragment);
         transaction.commit();
     }
-    private void setActionBar(int v){
+    public void setActionBar(int v){
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(v);
