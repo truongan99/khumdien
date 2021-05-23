@@ -4,12 +4,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.Plan"
-    android:background="@color/primary">
+    android:background="@drawable/gradient_plan">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/plan"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:drawableTop="@drawable/budget"
+            android:paddingTop="10dp"
+            android:drawablePadding="2dp"/>
+
+        <LinearLayout
+            android:layout_width="318dp"
+            android:layout_height="63dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plan_buget"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/plan_buget_des"
+                android:textColor="@color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=">"
+            android:textSize="27dp"
+            android:gravity="center"/>
+
+    </LinearLayout>
 
 </FrameLayout>

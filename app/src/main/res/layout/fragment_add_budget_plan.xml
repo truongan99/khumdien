@@ -36,9 +36,37 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:focusable="true"
-                android:inputType="number"/>
+                android:text=""
+                android:inputType="numberDecimal" />
 
         </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/rdg_type_add_bud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rd_thu_add_bud"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="@string/khoan_thu"
+                android:checked="true"
+                android:textSize="20dp" />
+
+            <RadioButton
+                android:id="@+id/rd_chi_add_bud"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/khoan_chi"
+                android:textSize="20dp" />
+
+        </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,6 +75,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/img_select_gr_add_bud"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/icon_not_selected" />
@@ -58,7 +87,8 @@
                 android:layout_marginLeft="20dp"
                 android:editable="false"
                 android:focusable="false"
-                android:hint="SELECT GROUP"/>
+                android:text=""
+                android:hint="SELECT GROUP" />
 
         </LinearLayout>
 
@@ -78,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
-                android:hint="NOTE"/>
+                android:hint="NOTE" />
         </LinearLayout>
 
         <LinearLayout
@@ -99,6 +129,7 @@
                 android:layout_marginLeft="20dp"
                 android:editable="false"
                 android:focusable="false"
+                android:text=""
                 android:hint="Apply time" />
         </LinearLayout>
 
