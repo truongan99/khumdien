@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.coin.Fragment.Account;
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private final  int ID_REPORT = 2;
     private final  int ID_PLAN = 3;
     private final  int ID_ACCOUNT = 4;
+    private ImageView img_wallet;
+    private TextView name_wallet;
     private TabLayout tabLayout;
     MeowBottomNavigation bottomNavigation;
     @Override
@@ -52,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
-
                 Fragment fragment = new Home();
                 replace(fragment);
                 setActionBar(R.layout.home_action_bar);
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     case ID_HOME:
                         fragment = new Home();
                         setActionBar(R.layout.home_action_bar);
+                        setItemHomeActionbar();
                         break;
                     case ID_REPORT:
                         fragment = new Report();
@@ -75,9 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 replace(fragment);
             }
-
         });
-        bottomNavigation.show(ID_HOME,false);
+        bottomNavigation.show(ID_HOME,true);
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
@@ -119,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
     private void replace(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -139,5 +143,11 @@ public class MainActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.BLACK);
         }
+    }
+    private void setItemHomeActionbar(){
+        img_wallet = findViewById(R.id.iv_wallet_img_home_fragment);
+        img_wallet.setImageResource(Login.acc_login.getHinhanh_vi());
+        name_wallet = findViewById(R.id.tv_namewallet_home_fragment);
+        name_wallet.setText(Login.acc_login.getTenvi());
     }
 }

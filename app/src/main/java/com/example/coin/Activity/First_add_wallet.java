@@ -29,9 +29,9 @@ public class First_add_wallet extends AppCompatActivity {
     private List<Currency_Class> currencyList;
     private CurrencyAdapter mAdapter;
     private ImageView img_wallet;
-    public static final int REQUEST_AVT=113;
+    public static final int REQUEST_AVT=112;
     private String wallet_currency;
-    private  int avt_wallet = R.drawable.vietnam;
+    private static int avt_wallet = R.drawable.icon_109;
     private String EMAIL_USER;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,9 @@ public class First_add_wallet extends AppCompatActivity {
                 String wallet_name = edt_wallet_name.getText().toString();
                 String email_user = Login.user_email;
                 Account_Entity wallet = new Account_Entity(email_user,wallet_name,wallet_currency,avt_wallet);
+                Login.acc_login.setTenvi(wallet_name);
+                Login.acc_login.setDon_vi_tien(wallet_currency);
+                Login.acc_login.setHinhanh_vi(avt_wallet);
                 try {
                     AppDB db = new AppDB(getApplicationContext());
                     db.UpdateAccount(wallet);
@@ -89,7 +92,7 @@ public class First_add_wallet extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_AVT) {
+        if (requestCode == REQUEST_AVT && data != null) {
             avt_wallet = data.getIntExtra("avt_wallet", 0);
             img_wallet.setImageResource(avt_wallet);
         }

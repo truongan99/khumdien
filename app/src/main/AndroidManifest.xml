@@ -9,9 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Coin">
-        <activity android:name=".Activity.AddTransaction"></activity>
-        <activity android:name=".Activity.SelectWalletAvtActivity"></activity>
-        <activity android:name=".Activity.First_add_wallet"></activity>
+        <activity android:name=".Activity.SelectGroupDetail">
+        </activity>
+        <activity android:name=".Activity.AddGroup">
+
+        </activity>
+        <activity android:name=".Activity.SelectGroup" />
+        <activity android:name=".Activity.AddTransaction" />
+        <activity android:name=".Activity.SelectWalletAvtActivity" />
+        <activity android:name=".Activity.First_add_wallet" />
         <activity android:name=".Activity.LoginForm">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +28,7 @@
         <activity android:name=".Activity.Login" />
         <activity android:name=".Activity.AccountHome" />
         <activity android:name=".Activity.Signup" />
-        <activity android:name=".Activity.MainActivity"></activity>
+        <activity android:name=".Activity.MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

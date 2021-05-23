@@ -22,6 +22,7 @@ public class Login extends AppCompatActivity {
     EditText username_edt,password_edt;
     TextView username_view,password_view,title_view;
     ColorStateList dfcoler;
+    public  static Account_Entity acc_login = new Account_Entity();
     public static String user_email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +44,22 @@ public class Login extends AppCompatActivity {
                         String username = username_edt.getText().toString();
                         String password = password_edt.getText().toString();
                         AppDB userdb = new AppDB(Login.this);
-                        Account_Entity user = userdb.select_User(username,password);
+                        acc_login = userdb.select_User(username,password);
 
-                        if(user==null) {
+                        if(acc_login==null) {
                             title_view.setText("username or password is incorrect");
                             title_view.setTextSize(20);
                         }
-                        else if (user.getTenvi()==null){
-                            user_email = user.getEmail();
+                        else if (acc_login.getTenvi()==null){
+                            user_email = acc_login.getEmail();
                             Intent intent = new Intent(Login.this, First_add_wallet.class);
                             startActivity(intent);
                             setResult(Activity.RESULT_OK,intent);
-                            intent.putExtra("USER_LOGIN",user.getEmail());
+                            intent.putExtra("USER_LOGIN",acc_login.getEmail());
                             finish();
                         }
-                        else if(user.getTenvi()!=null&&user.getDon_vi_tien()!=null&&user.getHinhanh_vi()!=null) {
-                            user_email = user.getEmail();
+                        else if(acc_login.getTenvi()!=null&&acc_login.getDon_vi_tien()!=null&&acc_login.getHinhanh_vi()!=null) {
+                            user_email = acc_login.getEmail();
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startActivity(intent);
                         }

@@ -14,7 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.coin.Activity.Login;
 import com.example.coin.Adapter.ViewPaggerAdapterTransaction;
 import com.example.coin.R;
 import com.google.android.material.tabs.TabLayout;
@@ -39,6 +42,7 @@ public class Home extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FragmentManager cfManager;
+
     private Button btn_add_trans;
     public Home() {
         // Required empty public constructor

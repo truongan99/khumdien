@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp"
+    android:paddingLeft="10dp"
+    android:gravity="center_vertical">
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:src="@drawable/icon_dashed_line"
+        android:rotation="-45"
+        />
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/icon_113"
+        android:id="@+id/iv_avt_grde_item"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Education"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/tv_groupde_name_item"/>
+</LinearLayout>

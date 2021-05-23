@@ -38,6 +38,30 @@
                 android:id="@+id/edt_money_add_tran"
                 android:inputType="numberDecimal"/>
         </LinearLayout>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:id="@+id/rdg_type_add_tran"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/khoan_thu"
+                android:textSize="20dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/rd_thu_add_tran"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/khoan_chi"
+                android:textSize="20dp"
+                android:id="@+id/rd_chi_add_tran"/>
+
+        </RadioGroup>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +70,8 @@
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/icon_not_selected"/>
+                android:src="@drawable/icon_not_selected"
+                android:id="@+id/iv_img_grd"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -76,7 +101,6 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/edt_note_add_tran"
-                android:inputType="numberDecimal"
                 android:hint="NOTE"/>
         </LinearLayout>
         <LinearLayout

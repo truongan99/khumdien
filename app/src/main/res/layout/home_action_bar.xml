@@ -15,12 +15,10 @@
             android:layout_height="40dp"
             android:background="@android:color/transparent"/>
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/icon_109"
             android:layout_gravity="center|left"
-            android:background="@drawable/circle_img2"
             android:id="@+id/iv_wallet_img_home_fragment"/>
     </FrameLayout>
     <LinearLayout
@@ -33,6 +31,8 @@
             android:layout_height="wrap_content"
             android:text="Name Wallet"
             android:textSize="15dp"
+            android:fontFamily="serif"
+            android:textStyle="bold"
             android:id="@+id/tv_namewallet_home_fragment"/>
         <TextView
             android:layout_width="wrap_content"

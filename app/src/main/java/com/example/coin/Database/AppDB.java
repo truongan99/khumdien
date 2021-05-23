@@ -8,6 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.coin.Bean.Account_Entity;
+import com.example.coin.Bean.Group_Detail_Entity;
+import com.example.coin.Bean.Group_Entity;
+import com.example.coin.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppDB extends SQLiteOpenHelper {
 
@@ -32,9 +38,30 @@ public class AppDB extends SQLiteOpenHelper {
         Log.d("data","Create Table TaiKhoan");
     }
     public void doCreateTbLoai(SQLiteDatabase db){
-        String tb= "CREATE TABLE IF NOT EXISTS LOAI(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TEN NVARCHAR(100), LOAI NVARCHAR(100))";
+        String tb= "CREATE TABLE IF NOT EXISTS LOAI(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TEN NVARCHAR(100), LOAI NVARCHAR(100),HINHANH_NHOM INTEGER)";
         db.execSQL(tb);
+        InsertGroup("Eating and drinking","0",R.drawable.icon_116,db);
+        InsertGroup("Bills and utilities","0",R.drawable.icon_135,db);
+        InsertGroup("Move","0",R.drawable.icon_12,db);
+        InsertGroup("Shopping","0",R.drawable.icon_3,db);
+        InsertGroup("Friends and lovers","0",R.drawable.icon_1,db);
+        InsertGroup("Entertainment","0",R.drawable.icon_49,db);
+        InsertGroup("Travel","0",R.drawable.icon_122,db);
+        InsertGroup("Health","0",R.drawable.icon_58,db);
+        InsertGroup("Gifts and Donations","0",R.drawable.icon_140,db);
+        InsertGroup("Family","0",R.drawable.icon_115,db);
+        InsertGroup("Education","0",R.drawable.icon_113,db);
+        InsertGroup("Invest","0",R.drawable.icon_119,db);
+        InsertGroup("Business","0",R.drawable.icon_59,db);
+        InsertGroup("Insurrance","0",R.drawable.icon_137,db);
+        InsertGroup("Cost","0",R.drawable.icon_138,db);
+
+        InsertGroup("Bonus","1",R.drawable.icon_111,db);
+        InsertGroup("Interest","1",R.drawable.icon_118,db);
+        InsertGroup("Salary","1",R.drawable.icon_76,db);
+        InsertGroup("Sell things","1",R.drawable.icon_121,db);
         Log.d("data","Create Table Loai");
+
     }
     public void doCreateTbCT_Loai(SQLiteDatabase db){
         String tb= "CREATE TABLE IF NOT EXISTS CT_LOAI(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TEN NVARCHAR(100), HINHANH INTEGER, ID_LOAI INTEGER , FOREIGN KEY (ID_LOAI) REFERENCES LOAI(ID))";
@@ -59,7 +86,12 @@ public class AppDB extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         delTable("TAIKHOAN",db);
-        delTable("tbWallet",db);
+        delTable("LOAI",db);
+        delTable("CT_LOAI",db);
+        delTable("CHITIEU",db);
+        delTable("CT_VI",db);
+        delTable("KEHOACH",db);
+
         Log.d("data","On Upgrade");
     }
     public void delTable(String name,SQLiteDatabase db){
@@ -117,5 +149,58 @@ public class AppDB extends SQLiteOpenHelper {
             e.printStackTrace();
             return null;
         }
+    }
+    private void InsertGroup(String ten,String loai , int hinhanh,SQLiteDatabase db){
+        try{
+            ContentValues values = new ContentValues();
+            values.put("TEN",ten);
+            values.put("LOAI",loai);
+            values.put("HINHANH_NHOM",hinhanh);
+            db.insert("LOAI",null,values);
+            Log.d("data"," THEM LOAI THANH CONG");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void InsertGroup_Detail(Group_Detail_Entity detail){
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("TEN",detail.getTen());
+            values.put("HINHANH",detail.getHinhanh());
+            values.put("ID_LOAI",detail.getId_loai());
+            db.insert("CT_LOAI",null,values);
+            Log.d("data"," THEM CT_LOAI THANH CONG");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public List<Group_Entity> getAllGroup(String type) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Group_Entity> words = new ArrayList<>();
+        String sql = "SELECT * FROM LOAI WHERE LOAI = "+type;
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                words.add(new Group_Entity(cursor.getInt(0), cursor.getString(1), cursor.getString(2),cursor.getInt(3)));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return words;
+    }
+    public List<Group_Detail_Entity> getAllGroupDe() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Group_Detail_Entity> words = new ArrayList<>();
+        String sql = "SELECT * FROM CT_LOAI";
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                words.add(new Group_Detail_Entity(cursor.getInt(0), cursor.getString(1), cursor.getInt(2),cursor.getInt(3)));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return words;
     }
 }
