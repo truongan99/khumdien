@@ -1,6 +1,7 @@
 package com.example.coin.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +27,8 @@ public class Plan extends Fragment {
     LinearLayout plan;
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String mParam1 = "";
+    private String mParam2 = "";
 
     public Plan() {
         // Required empty public constructor
@@ -42,7 +43,7 @@ public class Plan extends Fragment {
      * @return A new instance of fragment Plan.
      */
     // TODO: Rename and change types and number of parameters
-    public static Plan newInstance(String param1, String param2) {
+    public Plan newInstance(String param1, String param2) {
         Plan fragment = new Plan();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -79,6 +80,14 @@ public class Plan extends Fragment {
 
             }
         });
+
+        if (!mParam1.equals("") && !mParam2.equals("")) {
+            BudgetPlan nextFrag = new BudgetPlan();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_main, nextFrag, "findThisFragment")
+                    .addToBackStack(null)
+                    .commit();
+        }
 
         return root;
     }

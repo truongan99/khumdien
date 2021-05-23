@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.coin.Activity.AddBudget;
 import com.example.coin.Activity.Login;
+import com.example.coin.Activity.MainActivity;
 import com.example.coin.Activity.SelectGroup;
 import com.example.coin.Bean.Plan_Entity;
 import com.example.coin.Database.AppDB;
@@ -50,10 +51,7 @@ public class AddBudgetPlan extends Fragment {
     ImageView cancel_add_budget, img_select_gr_add_bud;
     TextView btn_save_bud;
     private RadioGroup rdg_type_add_bud;
-    private RadioButton rd_thu_add_bud;
-    private RadioButton rd_chi_add_bud;
     EditText edt_day_add_bud, edt_money_add_bud, edt_note_add_bud, edt_select_gr_add_bud;
-
 
     // TODO: Rename and change types of parameters
     private String money = "";
@@ -119,8 +117,6 @@ public class AddBudgetPlan extends Fragment {
         }
 
         rdg_type_add_bud = view.findViewById(R.id.rdg_type_add_bud);
-        rd_thu_add_bud = view.findViewById(R.id.rd_thu_add_bud);
-        rd_chi_add_bud = view.findViewById(R.id.rd_chi_add_bud);
         img_select_gr_add_bud = view.findViewById(R.id.img_select_gr_add_bud);
         if (avt_gr != -1) {
             img_select_gr_add_bud.setImageResource(avt_gr);
@@ -203,6 +199,11 @@ public class AddBudgetPlan extends Fragment {
                         Plan_Entity plan = new Plan_Entity(money, note, dateStart, dateEnd, id_gr, Login.acc_login.getID());
                         db.InsertPlan(plan);
                         Toast.makeText(getContext(), "Insert complete!", Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.putExtra("message", 1);
+                        getActivity().startActivity(intent);
+
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "ERROR", Toast.LENGTH_LONG).show();
                     }

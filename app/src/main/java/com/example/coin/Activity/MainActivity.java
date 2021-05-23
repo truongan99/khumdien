@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -26,20 +28,29 @@ import com.google.android.material.tabs.TabLayout;
 
 
 public class MainActivity extends AppCompatActivity {
-    private final  int ID_HOME = 1;
-    private final  int ID_REPORT = 2;
-    private final  int ID_PLAN = 3;
-    private final  int ID_ACCOUNT = 4;
+    private final int ID_HOME = 1;
+    private final int ID_REPORT = 2;
+    private final int ID_PLAN = 3;
+    private final int ID_ACCOUNT = 4;
+    private final int ID_INSERT_PLAN = 5;
+    MeowBottomNavigation bottomNavigation;
+    Integer message = -1;
     private ImageView img_wallet;
     private TextView name_wallet;
     private TabLayout tabLayout;
-    MeowBottomNavigation bottomNavigation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getMessage();
         initBottomNavigation();
         changeStatusBarColor();
+    }
+
+    private void getMessage(){
+        Intent intent = getIntent();
+        message = intent.getIntExtra("message", -1);
     }
 
     @Override
@@ -50,18 +61,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void initBottomNavigation() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
-        bottomNavigation.add(new MeowBottomNavigation.Model(ID_HOME,R.drawable.ic_nav_book_transaction));
-        bottomNavigation.add(new MeowBottomNavigation.Model(ID_REPORT,R.drawable.ic_nav_chart));
-        bottomNavigation.add(new MeowBottomNavigation.Model(ID_PLAN,R.drawable.ic_nav_plan));
-        bottomNavigation.add(new MeowBottomNavigation.Model(ID_ACCOUNT,R.drawable.ic_nav_user));
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_HOME, R.drawable.ic_nav_book_transaction));
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_REPORT, R.drawable.ic_nav_chart));
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_PLAN, R.drawable.ic_nav_plan));
+        bottomNavigation.add(new MeowBottomNavigation.Model(ID_ACCOUNT, R.drawable.ic_nav_user));
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
                 Fragment fragment = new Home();
                 replace(fragment);
                 setActionBar(R.layout.home_action_bar);
-                switch (item.getId()){
+                switch (item.getId()) {
                     case ID_HOME:
+                        Log.d("interrrrr", "susss");
                         fragment = new Home();
                         setActionBar(R.layout.home_action_bar);
                         setItemHomeActionbar();
@@ -70,7 +82,11 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new Report();
                         break;
                     case ID_PLAN:
-                        fragment = new Plan();
+                        if (message != -1) {
+                            fragment = new Plan().newInstance("go", "budget");
+                        } else {
+                            fragment = new Plan();
+                        }
                         break;
                     case ID_ACCOUNT:
                         fragment = new Account();
@@ -81,11 +97,10 @@ public class MainActivity extends AppCompatActivity {
                 replace(fragment);
             }
         });
-        bottomNavigation.show(ID_HOME,true);
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
-                switch (item.getId()){
+                switch (item.getId()) {
                     case 1:
                         replace(new Home());
                         break;
@@ -105,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onReselectItem(MeowBottomNavigation.Model item) {
                 Fragment fragment = null;
-                switch (item.getId()){
+                switch (item.getId()) {
                     case ID_HOME:
                         fragment = new Home();
                         break;
@@ -123,23 +138,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        if (message != -1) {
+            bottomNavigation.show(ID_PLAN, true);
+        } else {
+            bottomNavigation.show(ID_HOME, true);
+        }
+    }
 
-    }
-    public void changeBottomNavigationHide() {
-        bottomNavigation = findViewById(R.id.bottomNavigation);
-        bottomNavigation.setVisibility(View.INVISIBLE);
-    }
-
-    public void changeBottomNavigationShow() {
-        bottomNavigation = findViewById(R.id.bottomNavigation);
-        bottomNavigation.setVisibility(View.VISIBLE);
-    }
     private void replace(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_main,fragment);
+        transaction.replace(R.id.frame_main, fragment);
         transaction.commit();
     }
-    public void setActionBar(int v){
+
+    public void setActionBar(int v) {
         this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(v);
@@ -147,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(colorDrawable);
         getSupportActionBar().setElevation(0);
     }
+
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -154,7 +167,8 @@ public class MainActivity extends AppCompatActivity {
             window.setStatusBarColor(Color.BLACK);
         }
     }
-    private void setItemHomeActionbar(){
+
+    private void setItemHomeActionbar() {
         img_wallet = findViewById(R.id.iv_wallet_img_home_fragment);
         img_wallet.setImageResource(Login.acc_login.getHinhanh_vi());
         name_wallet = findViewById(R.id.tv_namewallet_home_fragment);

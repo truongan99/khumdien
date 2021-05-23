@@ -2,17 +2,22 @@ package com.example.coin.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.coin.Activity.AddBudget;
 import com.example.coin.Activity.MainActivity;
 import com.example.coin.R;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,13 +70,9 @@ public class BudgetPlan extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ((MainActivity) getActivity()).setActionBar(R.layout.plan_budget_actionbar);
-        ((MainActivity) getActivity()).changeBottomNavigationShow();
-
-        View root = inflater.inflate(R.layout.fragment_budget_plan, container, false);
 
         plan_budget_back = ((MainActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.plan_budget_back);
         plan_budget_back.setOnClickListener(new View.OnClickListener() {
@@ -85,21 +86,23 @@ public class BudgetPlan extends Fragment {
             }
         });
 
-        btn_add_plan_budget = root.findViewById(R.id.btn_add_plan_budget);
+        btn_add_plan_budget = view.findViewById(R.id.btn_add_plan_budget);
         btn_add_plan_budget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                AddBudgetPlan nextFrag = new AddBudgetPlan();
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.frame_main, nextFrag, "findThisFragment")
-//                        .addToBackStack(null)
-//                        .commit();
                 Intent intent = new Intent(getActivity(), AddBudget.class);
                 startActivity(intent);
             }
         });
 
-        return root;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        return inflater.inflate(R.layout.fragment_budget_plan, container, false);
+
     }
 
 
