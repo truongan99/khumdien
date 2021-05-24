@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.coin.Bean.Account_Entity;
 import com.example.coin.Bean.Group_Detail_Entity;
 import com.example.coin.Bean.Group_Entity;
+import com.example.coin.Bean.Plan_Entity;
 import com.example.coin.R;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class AppDB extends SQLiteOpenHelper {
         Log.d("data","Create Table CT_Loai");
     }
     public void doCreateTbKeHoach(SQLiteDatabase db){
-        String tb= "CREATE TABLE IF NOT EXISTS KEHOACH(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TEN NVARCHAR(100), SOTIEN INTEGER, NGAYBATDAU DATETIME, NGAYKETTHUC DATETIME, ID_CT_LOAI INTEGER , FOREIGN KEY (ID_CT_LOAI) REFERENCES CT_LOAI(ID))";
+        String tb = "CREATE TABLE IF NOT EXISTS KEHOACH(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, SOTIEN INTEGER, NGAYBATDAU DATETIME, NGAYKETTHUC DATETIME, GHICHU NVARCHAR(100), ID_LOAI INTEGER ,ID_TAIKHOAN INTEGER, FOREIGN KEY (ID_LOAI) REFERENCES LOAI(ID), FOREIGN KEY (ID_TAIKHOAN) REFERENCES TAIKHOAN(ID))";
         db.execSQL(tb);
         Log.d("data","Create Table KeHoach");
     }
@@ -137,6 +138,7 @@ public class AppDB extends SQLiteOpenHelper {
             Account_Entity acc = new Account_Entity();
             if(cursor!=null && cursor.getCount() > 0){
                 cursor.moveToFirst();
+                acc.setID(cursor.getInt(0));
                 acc.setTenvi(cursor.getString(1));
                 acc.setHinhanh_vi(cursor.getInt(2));
                 acc.setDon_vi_tien(cursor.getString(3));
@@ -203,4 +205,26 @@ public class AppDB extends SQLiteOpenHelper {
         }
         return words;
     }
+
+    public void InsertPlan(Plan_Entity plan){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("SOTIEN",plan.getMoney());
+            values.put("NGAYBATDAU",plan.getDateStart());
+            values.put("NGAYKETTHUC",plan.getDateEnd());
+            values.put("GHICHU",plan.getNote());
+            values.put("ID_LOAI",plan.getId_gr());
+            values.put("ID_TAIKHOAN",plan.getId_account());
+            db.insert("KEHOACH",null,values);
+            db.close();
+            Log.d("data","Insert KEHOACH");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Log.d("data","Insert KEHOACH Fail");
+        }
+    }
+
+
 }
