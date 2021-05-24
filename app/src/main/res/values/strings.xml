@@ -46,9 +46,4 @@
     <string name="choose_icon">Choose Icon</string>
     <string name="khoan_thu">Revenue</string>
     <string name="khoan_chi">Expenses</string>
-    <string name="plan_buget">Budget</string>
-    <string name="plan_buget_des">A financial plan helps you balance your income and expenses.</string>
-    <string name="add_budget">Add Budget Plan</string>
-    <string name="time_app">Time Of Application</string>
-    <string name="title_activity_add_budget_plan">AddBudgetPlan</string>
 </resources>

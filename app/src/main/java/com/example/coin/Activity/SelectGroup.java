@@ -6,12 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,8 +24,6 @@ public class SelectGroup extends AppCompatActivity {
 
     private List<Group_Entity> list;
     private ListView lv_gr;
-    ImageView iw_cancel_choose_icon;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,19 +49,11 @@ public class SelectGroup extends AppCompatActivity {
                 finish();
             }
         });
-
-        iw_cancel_choose_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     private void setControl() {
         lv_gr = findViewById(R.id.lv_group_add);
         lv_gr.setAdapter(new GroupAdapter(SelectGroup.this,list));
-        iw_cancel_choose_icon = getSupportActionBar().getCustomView().findViewById(R.id.iw_cancel_choose_icon);
     }
 
     private void initGroupList(){ Intent intent = getIntent();

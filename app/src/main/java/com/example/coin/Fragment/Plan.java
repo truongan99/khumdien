@@ -1,15 +1,13 @@
 package com.example.coin.Fragment;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.coin.Activity.MainActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.example.coin.R;
 
 /**
@@ -24,11 +22,9 @@ public class Plan extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    LinearLayout plan;
-
     // TODO: Rename and change types of parameters
-    private String mParam1 = "";
-    private String mParam2 = "";
+    private String mParam1;
+    private String mParam2;
 
     public Plan() {
         // Required empty public constructor
@@ -43,7 +39,7 @@ public class Plan extends Fragment {
      * @return A new instance of fragment Plan.
      */
     // TODO: Rename and change types and number of parameters
-    public Plan newInstance(String param1, String param2) {
+    public static Plan newInstance(String param1, String param2) {
         Plan fragment = new Plan();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -64,32 +60,7 @@ public class Plan extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).setActionBar(R.layout.home_action_bar);
-
-        View root = inflater.inflate(R.layout.fragment_plan, container, false);
-
-        plan = root.findViewById(R.id.plan);
-        plan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BudgetPlan nextFrag = new BudgetPlan();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame_main, nextFrag, "findThisFragment")
-                        .addToBackStack(null)
-                        .commit();
-
-            }
-        });
-
-        if (!mParam1.equals("") && !mParam2.equals("")) {
-            BudgetPlan nextFrag = new BudgetPlan();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_main, nextFrag, "findThisFragment")
-                    .addToBackStack(null)
-                    .commit();
-        }
-
-        return root;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_plan, container, false);
     }
-
 }

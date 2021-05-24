@@ -22,7 +22,7 @@ public class Login extends AppCompatActivity {
     EditText username_edt,password_edt;
     TextView username_view,password_view,title_view;
     ColorStateList dfcoler;
-    public static Account_Entity acc_login = new Account_Entity();
+    public  static Account_Entity acc_login = new Account_Entity();
     public static String user_email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
