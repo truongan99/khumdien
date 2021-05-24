@@ -1,36 +1,44 @@
 package com.example.coin.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.coin.Activity.AddBudget;
 import com.example.coin.Activity.MainActivity;
 import com.example.coin.R;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Plan#newInstance} factory method to
+ * Use the {@link BudgetPlan#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Plan extends Fragment {
+public class BudgetPlan extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    LinearLayout plan;
+    TextView plan_budget_back;
+    Button btn_add_plan_budget;
 
     // TODO: Rename and change types of parameters
-    private String mParam1 = "";
-    private String mParam2 = "";
+    private String mParam1;
+    private String mParam2;
 
-    public Plan() {
+    public BudgetPlan() {
         // Required empty public constructor
     }
 
@@ -40,11 +48,11 @@ public class Plan extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Plan.
+     * @return A new instance of fragment BudgetPlan.
      */
     // TODO: Rename and change types and number of parameters
-    public Plan newInstance(String param1, String param2) {
-        Plan fragment = new Plan();
+    public static BudgetPlan newInstance(String param1, String param2) {
+        BudgetPlan fragment = new BudgetPlan();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,34 +70,40 @@ public class Plan extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).setActionBar(R.layout.home_action_bar);
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ((MainActivity) getActivity()).setActionBar(R.layout.plan_budget_actionbar);
 
-        View root = inflater.inflate(R.layout.fragment_plan, container, false);
-
-        plan = root.findViewById(R.id.plan);
-        plan.setOnClickListener(new View.OnClickListener() {
+        plan_budget_back = ((MainActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.plan_budget_back);
+        plan_budget_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BudgetPlan nextFrag = new BudgetPlan();
+                Plan nextFrag = new Plan();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_main, nextFrag, "findThisFragment")
                         .addToBackStack(null)
                         .commit();
-
             }
         });
 
-        if (!mParam1.equals("") && !mParam2.equals("")) {
-            BudgetPlan nextFrag = new BudgetPlan();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_main, nextFrag, "findThisFragment")
-                    .addToBackStack(null)
-                    .commit();
-        }
+        btn_add_plan_budget = view.findViewById(R.id.btn_add_plan_budget);
+        btn_add_plan_budget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddBudget.class);
+                startActivity(intent);
+            }
+        });
 
-        return root;
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        return inflater.inflate(R.layout.fragment_budget_plan, container, false);
+
+    }
+
 
 }
