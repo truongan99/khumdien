@@ -34,6 +34,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class AddBudgetPlan extends Fragment {
 
+    public static final int REQUEST_GROUP = 111;
+    public static final int REQUEST_AVT = 110;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,15 +46,15 @@ public class AddBudgetPlan extends Fragment {
     private static final String ARG_PARAM6 = "param6";
     private static final String ARG_PARAM7 = "param7";
     private static final String ARG_PARAM8 = "param8";
-
-    public static final int REQUEST_GROUP = 111;
-    public static final int REQUEST_AVT = 110;
+    private static final String ARG_PARAMID = "paramID";
 
     ImageView cancel_add_budget, img_select_gr_add_bud;
-    TextView btn_save_bud;
-    private RadioGroup rdg_type_add_bud;
+    TextView btn_save_bud, title_add_budget_actionbar;
     EditText edt_day_add_bud, edt_money_add_bud, edt_note_add_bud, edt_select_gr_add_bud;
-
+    int ID = -1;
+    int id_gr = -1;
+    int avt_gr = -1;
+    private RadioGroup rdg_type_add_bud;
     // TODO: Rename and change types of parameters
     private String money = "";
     private String selected = "";
@@ -60,8 +62,6 @@ public class AddBudgetPlan extends Fragment {
     private String dateStart = "";
     private String dateEnd = "";
     private int type = 0;  // 1: this week, 2: this month, 3: this year, 4: custom
-    int id_gr = -1;
-    int avt_gr = -1;
 
     public AddBudgetPlan() {
         // Required empty public constructor
@@ -76,9 +76,10 @@ public class AddBudgetPlan extends Fragment {
      * @return A new instance of fragment AddBudgetPlan.
      */
     // TODO: Rename and change types and number of parameters
-    public AddBudgetPlan dataTransfer(String param1, String param2, String param3, String param4, String param5, Integer param6, Integer param7, Integer param8) {
+    public AddBudgetPlan dataTransfer(Integer ID, String param1, String param2, String param3, String param4, String param5, Integer param6, Integer param7, Integer param8) {
         AddBudgetPlan fragment = new AddBudgetPlan();
         Bundle args = new Bundle();
+        args.putInt(ARG_PARAMID, ID);
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         args.putString(ARG_PARAM3, param3);
@@ -95,6 +96,7 @@ public class AddBudgetPlan extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            ID = getArguments().getInt(ARG_PARAMID);
             money = getArguments().getString(ARG_PARAM1);
             selected = getArguments().getString(ARG_PARAM2);
             note = getArguments().getString(ARG_PARAM3);
@@ -111,6 +113,11 @@ public class AddBudgetPlan extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ((AddBudget) getActivity()).setActionBar(R.layout.add_budget_actionbar);
 
+        if (ID != -1) {
+            title_add_budget_actionbar = ((AddBudget) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.title_add_budget_actionbar);
+            title_add_budget_actionbar.setText("Update Budget Plan");
+        }
+
         edt_money_add_bud = view.findViewById(R.id.edt_money_add_bud);
         if (!money.equals("")) {
             edt_money_add_bud.setText(money);
@@ -120,7 +127,9 @@ public class AddBudgetPlan extends Fragment {
         img_select_gr_add_bud = view.findViewById(R.id.img_select_gr_add_bud);
         if (avt_gr != -1) {
             img_select_gr_add_bud.setImageResource(avt_gr);
-
+        }
+        if (ID != -1) {
+            img_select_gr_add_bud.setImageResource(new AppDB(getContext()).selectImg(id_gr));
         }
 
         edt_note_add_bud = view.findViewById(R.id.edt_note_add_bud);
@@ -131,6 +140,9 @@ public class AddBudgetPlan extends Fragment {
         edt_select_gr_add_bud = view.findViewById(R.id.edt_select_gr_add_bud);
         if (!selected.equals("")) {
             edt_select_gr_add_bud.setText(selected);
+        }
+        if (ID != -1) {
+            edt_select_gr_add_bud.setText(new AppDB(getContext()).selectName(id_gr));
         }
         edt_select_gr_add_bud.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +184,7 @@ public class AddBudgetPlan extends Fragment {
         edt_day_add_bud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddBudgetPlanTime nextFrag = new AddBudgetPlanTime().dataTransfer(edt_money_add_bud.getText().toString(), edt_select_gr_add_bud.getText().toString(), edt_note_add_bud.getText().toString(), dateStart, dateEnd, type, id_gr, avt_gr);
+                AddBudgetPlanTime nextFrag = new AddBudgetPlanTime().dataTransfer(ID, edt_money_add_bud.getText().toString(), edt_select_gr_add_bud.getText().toString(), edt_note_add_bud.getText().toString(), dateStart, dateEnd, type, id_gr, avt_gr);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.add_budget_frame, nextFrag, "findThisFragment")
                         .addToBackStack(null)
@@ -195,10 +207,19 @@ public class AddBudgetPlan extends Fragment {
                 }
                 if (!edt_money_add_bud.getText().toString().equals("") && !edt_day_add_bud.getText().toString().equals("") && !edt_select_gr_add_bud.getText().toString().equals("")) {
                     try {
+
                         AppDB db = new AppDB(getContext());
-                        Plan_Entity plan = new Plan_Entity(money, note, dateStart, dateEnd, id_gr, Login.acc_login.getID());
-                        db.InsertPlan(plan);
-                        Toast.makeText(getContext(), "Insert complete!", Toast.LENGTH_LONG).show();
+                        if (ID != -1) {
+
+                            Plan_Entity plan = new Plan_Entity(ID, edt_money_add_bud.getText().toString(), edt_note_add_bud.getText().toString(), dateStart, dateEnd, id_gr, Login.acc_login.getID());
+                            db.UpdatePlan(plan);
+                        } else {
+
+                            Plan_Entity plan = new Plan_Entity(edt_money_add_bud.getText().toString(), edt_note_add_bud.getText().toString(), dateStart, dateEnd, id_gr, Login.acc_login.getID());
+                            db.InsertPlan(plan);
+                        }
+
+                        Toast.makeText(getContext(), "Complete!", Toast.LENGTH_LONG).show();
 
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         intent.putExtra("message", 1);
@@ -222,10 +243,6 @@ public class AddBudgetPlan extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == REQUEST_AVT && data != null) {
-//            avt_gr =  data.getIntExtra("GRD_IMG",-1);
-//            img_select_gr_add_bud.setImageResource(avt_gr);
-//        }
         if (requestCode == REQUEST_GROUP && data != null) {
             edt_select_gr_add_bud.setText(data.getStringExtra("GR_NAME"));
             id_gr = data.getIntExtra("GR_ID", -1);

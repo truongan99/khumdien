@@ -53,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
         message = intent.getIntExtra("message", -1);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_home_fragment, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
     private void initBottomNavigation() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.add(new MeowBottomNavigation.Model(ID_HOME, R.drawable.ic_nav_book_transaction));
@@ -73,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
                 setActionBar(R.layout.home_action_bar);
                 switch (item.getId()) {
                     case ID_HOME:
-                        Log.d("interrrrr", "susss");
                         fragment = new Home();
                         setActionBar(R.layout.home_action_bar);
                         setItemHomeActionbar();

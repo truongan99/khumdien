@@ -5,7 +5,7 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/cancel_add_budget"
+        android:id="@+id/cancel_budget_detail"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginLeft="10dp"
@@ -17,27 +17,36 @@
         android:textSize="30dp" />
 
     <TextView
-        android:id="@+id/title_add_budget_actionbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="30dp"
-        android:text="@string/add_budget"
+        android:text="@string/plan_buget"
         android:textColor="@color/black"
         android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/btn_save_bud"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginRight="10dp"
-        android:layout_weight="1"
-        android:gravity="right"
-        android:text="SAVE"
+    <ImageView
+        android:id="@+id/fix_budget_detail"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
-        android:textColor="@color/circleColer"
-        android:textSize="20dp" />
+        android:src="@drawable/icon_pen"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
 
+    <ImageView
+        android:id="@+id/delete_budget_detail"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:src="@drawable/icon_trash"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
 
 </LinearLayout>

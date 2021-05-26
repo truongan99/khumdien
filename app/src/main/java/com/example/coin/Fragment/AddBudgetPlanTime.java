@@ -43,6 +43,7 @@ public class AddBudgetPlanTime extends Fragment {
     private static final String ARG_PARAM6 = "param6";
     private static final String ARG_PARAM7 = "param7";
     private static final String ARG_PARAM8 = "param8";
+    private static final String ARG_PARAMID = "paramID";
 
     ImageView cancel_time_app;
     TextView edt_time_week, edt_time_month, edt_time_year, edt_time_custom;
@@ -54,7 +55,9 @@ public class AddBudgetPlanTime extends Fragment {
             cusEnd = checkformat.format(calendar.getTime());
     DatePickerDialog picker;
     boolean check = false;
-
+    int id_gr = -1;
+    int avt_gr = -1;
+    int ID = -1;
     // TODO: Rename and change types of parameters
     private String money = "";
     private String selected = "";
@@ -62,8 +65,6 @@ public class AddBudgetPlanTime extends Fragment {
     private String dateStart = "";
     private String dateEnd = "";
     private int type = 4;
-    int id_gr = -1;
-    int avt_gr = -1;
 
     public AddBudgetPlanTime() {
         // Required empty public constructor
@@ -78,9 +79,10 @@ public class AddBudgetPlanTime extends Fragment {
      * @return A new instance of fragment AddBudgetPlanTime.
      */
     // TODO: Rename and change types and number of parameters
-    public AddBudgetPlanTime dataTransfer(String param1, String param2, String param3, String param4, String param5, Integer param6, Integer param7, Integer param8) {
+    public AddBudgetPlanTime dataTransfer(int ID, String param1, String param2, String param3, String param4, String param5, Integer param6, Integer param7, Integer param8) {
         AddBudgetPlanTime fragment = new AddBudgetPlanTime();
         Bundle args = new Bundle();
+        args.putInt(ARG_PARAMID, ID);
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         args.putString(ARG_PARAM3, param3);
@@ -105,6 +107,7 @@ public class AddBudgetPlanTime extends Fragment {
             type = getArguments().getInt(ARG_PARAM6);
             id_gr = getArguments().getInt(ARG_PARAM7);
             avt_gr = getArguments().getInt(ARG_PARAM8);
+            ID = getArguments().getInt(ARG_PARAMID);
         }
     }
 
@@ -119,7 +122,7 @@ public class AddBudgetPlanTime extends Fragment {
         cancel_time_app.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddBudgetPlan nextFrag = new AddBudgetPlan().dataTransfer(money, selected, note, dateStart, dateEnd, type, id_gr, avt_gr);
+                AddBudgetPlan nextFrag = new AddBudgetPlan().dataTransfer(ID, money, selected, note, dateStart, dateEnd, type, id_gr, avt_gr);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.add_budget_frame, nextFrag, "findThisFragment")
                         .addToBackStack(null)
@@ -157,7 +160,7 @@ public class AddBudgetPlanTime extends Fragment {
         time_week.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddBudgetPlan nextFrag = new AddBudgetPlan().dataTransfer(money, selected, note, today, endWeek, 1, id_gr, avt_gr);
+                AddBudgetPlan nextFrag = new AddBudgetPlan().dataTransfer(ID, money, selected, note, today, endWeek, 1, id_gr, avt_gr);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.add_budget_frame, nextFrag, "findThisFragment")
                         .addToBackStack(null)
@@ -169,7 +172,7 @@ public class AddBudgetPlanTime extends Fragment {
         time_month.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddBudgetPlan nextFrag = new AddBudgetPlan().dataTransfer(money, selected, note, today, endMonth, 2, id_gr, avt_gr);
+                AddBudgetPlan nextFrag = new AddBudgetPlan().dataTransfer(ID, money, selected, note, today, endMonth, 2, id_gr, avt_gr);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.add_budget_frame, nextFrag, "findThisFragment")
                         .addToBackStack(null)
@@ -181,7 +184,7 @@ public class AddBudgetPlanTime extends Fragment {
         time_year.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddBudgetPlan nextFrag = new AddBudgetPlan().dataTransfer(money, selected, note, today, endYear, 3, id_gr, avt_gr);
+                AddBudgetPlan nextFrag = new AddBudgetPlan().dataTransfer(ID, money, selected, note, today, endYear, 3, id_gr, avt_gr);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.add_budget_frame, nextFrag, "findThisFragment")
                         .addToBackStack(null)
@@ -288,7 +291,7 @@ public class AddBudgetPlanTime extends Fragment {
                 }
                 if (check) {
                     edt_time_custom.setText(cusStart + " - " + cusEnd);
-                    AddBudgetPlan nextFrag = new AddBudgetPlan().dataTransfer(money, selected, note, cusStart, cusEnd, 4, id_gr, avt_gr);
+                    AddBudgetPlan nextFrag = new AddBudgetPlan().dataTransfer(ID, money, selected, note, cusStart, cusEnd, 4, id_gr, avt_gr);
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.add_budget_frame, nextFrag, "findThisFragment")
                             .addToBackStack(null)
