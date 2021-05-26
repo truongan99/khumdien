@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -43,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -219,7 +217,7 @@ public class BudgetPlanDetail extends Fragment {
         if ((int) percent <= 100) {
             progress_bar_detail_plan.setProgress((int) percent);
         } else {
-            progress_bar_detail_plan.setProgress(100);
+            progress_bar_detail_plan.setProgress((int) percent - 100);
             progress_bar_detail_plan.getProgressDrawable().setColorFilter(
                     Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
         }
