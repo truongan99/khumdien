@@ -214,15 +214,14 @@ public class BudgetPlanDetail extends Fragment {
         money_left.setText((Integer.parseInt(money) - moneyuse) + " " + symbol);
 
         progress_bar_detail_plan = view.findViewById(R.id.progress_bar_detail_plan);
-        if (moneyuse != 0) {
-            float percent = ((float) moneyuse / Float.parseFloat(money)) * 100;
-            if ((int) percent <= 100) {
-                progress_bar_detail_plan.setProgress((int) percent);
-            } else {
-                progress_bar_detail_plan.setProgress(100);
-            }
+
+        float percent = ((float) moneyuse / Float.parseFloat(money)) * 100;
+        if ((int) percent <= 100) {
+            progress_bar_detail_plan.setProgress((int) percent);
         } else {
-            progress_bar_detail_plan.setProgress(0);
+            progress_bar_detail_plan.setProgress(100);
+            progress_bar_detail_plan.getProgressDrawable().setColorFilter(
+                    Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
         }
 
         time_plan = view.findViewById(R.id.time_plan);

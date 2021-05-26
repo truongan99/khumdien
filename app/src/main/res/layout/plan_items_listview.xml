@@ -87,8 +87,7 @@
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"
                 android:progress="0"
-                android:progressDrawable="@drawable/curved_progress_bar"
-                android:scaleY=".4" />
+                android:scaleY="1.3" />
 
         </LinearLayout>
 
