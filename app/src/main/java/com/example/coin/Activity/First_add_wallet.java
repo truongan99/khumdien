@@ -16,11 +16,16 @@ import android.widget.Toast;
 import com.example.coin.Adapter.CurrencyAdapter;
 import com.example.coin.Bean.Account_Entity;
 import com.example.coin.Bean.Currency_Class;
+import com.example.coin.Bean.WalletDetail_Entity;
 import com.example.coin.Database.AppDB;
 import com.example.coin.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class First_add_wallet extends AppCompatActivity {
     private Spinner sp_currency;
@@ -78,6 +83,13 @@ public class First_add_wallet extends AppCompatActivity {
                 try {
                     AppDB db = new AppDB(getApplicationContext());
                     db.UpdateAccount(wallet);
+                    WalletDetail_Entity wd = new WalletDetail_Entity();
+                    wd.setId_vi(db.selectIDUserByEmail(email_user));
+                    Date c = Calendar.getInstance().getTime();
+                    SimpleDateFormat df = new SimpleDateFormat("MM/yyyy", Locale.getDefault());
+                    wd.setThoigian(df.format(c));
+                    wd.setSotien(0);
+                    db.InsertCT_VI(wd);
                     Toast.makeText(getApplicationContext(),"Create Wallet Done !",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(First_add_wallet.this, MainActivity.class);
                     //gọi startActivityForResult

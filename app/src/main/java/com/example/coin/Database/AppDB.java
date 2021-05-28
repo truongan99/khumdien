@@ -11,6 +11,8 @@ import com.example.coin.Bean.Account_Entity;
 import com.example.coin.Bean.Group_Detail_Entity;
 import com.example.coin.Bean.Group_Entity;
 import com.example.coin.Bean.Plan_Entity;
+import com.example.coin.Bean.Transaction_Entity;
+import com.example.coin.Bean.WalletDetail_Entity;
 import com.example.coin.R;
 
 import java.util.ArrayList;
@@ -70,17 +72,17 @@ public class AppDB extends SQLiteOpenHelper {
         Log.d("data","Create Table CT_Loai");
     }
     public void doCreateTbKeHoach(SQLiteDatabase db){
-        String tb = "CREATE TABLE IF NOT EXISTS KEHOACH(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, SOTIEN INTEGER, NGAYBATDAU DATETIME, NGAYKETTHUC DATETIME, GHICHU NVARCHAR(100), ID_LOAI INTEGER ,ID_TAIKHOAN INTEGER, FOREIGN KEY (ID_LOAI) REFERENCES LOAI(ID), FOREIGN KEY (ID_TAIKHOAN) REFERENCES TAIKHOAN(ID))";
+        String tb = "CREATE TABLE IF NOT EXISTS KEHOACH(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, SOTIEN INTEGER, NGAYBATDAU NVARCHAR(100), NGAYKETTHUC NVARCHAR(100), GHICHU NVARCHAR(100), ID_LOAI INTEGER ,ID_TAIKHOAN INTEGER, FOREIGN KEY (ID_LOAI) REFERENCES LOAI(ID), FOREIGN KEY (ID_TAIKHOAN) REFERENCES TAIKHOAN(ID))";
         db.execSQL(tb);
         Log.d("data","Create Table KeHoach");
     }
     public void doCreateTbCT_Vi(SQLiteDatabase db){
-        String tb= "CREATE TABLE IF NOT EXISTS CT_VI(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TIENHIENTAI INTEGER, THOIGIAN DATETIME, ID_TAIKHOAN INTEGER , FOREIGN KEY (ID_TAIKHOAN) REFERENCES TAIKHOAN(ID))";
+        String tb= "CREATE TABLE IF NOT EXISTS CT_VI(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, TIENHIENTAI INTEGER, THOIGIAN NVARCHAR(100), ID_TAIKHOAN INTEGER , FOREIGN KEY (ID_TAIKHOAN) REFERENCES TAIKHOAN(ID))";
         db.execSQL(tb);
         Log.d("data","Create Table CT_vi");
     }
     public void doCreateTbChiTieu(SQLiteDatabase db){
-        String tb= "CREATE TABLE IF NOT EXISTS CHITIEU(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, SOTIEN INTEGER, NGAYGIAODICH DATETIME, MOTA NVARCHAR(200), ID_CT_VI INTEGER , ID_CT_LOAI INTEGER , FOREIGN KEY (ID_CT_VI) REFERENCES CT_VI(ID), FOREIGN KEY (ID_CT_LOAI) REFERENCES CT_LOAI(ID))";
+        String tb= "CREATE TABLE IF NOT EXISTS CHITIEU(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, SOTIEN INTEGER, NGAYGIAODICH NVARCHAR(100), MOTA NVARCHAR(200), ID_CT_LOAI INTEGER,ID_CT_VI INTEGER , FOREIGN KEY (ID_CT_LOAI) REFERENCES CT_LOAI(ID),FOREIGN KEY (ID_CT_VI) REFERENCES CT_VI(ID))";
         db.execSQL(tb);
         Log.d("data","Create Table ChiTieu");
     }
@@ -152,6 +154,21 @@ public class AppDB extends SQLiteOpenHelper {
             return null;
         }
     }
+    public int selectIDUserByEmail(String email){
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            String sql = "Select * From TAIKHOAN WHERE EMAIL =  ?";
+            Cursor cursor = db.rawQuery(sql,new String[]{email});
+            if(cursor!=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                return cursor.getInt(0);
+            }
+            else return  -1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
     private void InsertGroup(String ten,String loai , int hinhanh,SQLiteDatabase db){
         try{
             ContentValues values = new ContentValues();
@@ -183,6 +200,19 @@ public class AppDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         List<Group_Entity> words = new ArrayList<>();
         String sql = "SELECT * FROM LOAI WHERE LOAI = "+type;
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                words.add(new Group_Entity(cursor.getInt(0), cursor.getString(1), cursor.getString(2),cursor.getInt(3)));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return words;
+    }
+    public List<Group_Entity> getAllGroupNoType() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Group_Entity> words = new ArrayList<>();
+        String sql = "SELECT * FROM LOAI";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -225,6 +255,116 @@ public class AppDB extends SQLiteOpenHelper {
             Log.d("data","Insert KEHOACH Fail");
         }
     }
-
-
+    public WalletDetail_Entity Select_WalletDetailLast(int id){
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            String sql = "SELECT * FROM CT_VI WHERE ID_TAIKHOAN = "+id+"  ORDER BY ID DESC LIMIT 1";
+            Cursor cursor = db.rawQuery(sql,null);
+            WalletDetail_Entity wallet = new WalletDetail_Entity();
+            if(cursor!=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                wallet.setId(cursor.getInt(0));
+                wallet.setSotien(cursor.getInt(1));
+                wallet.setThoigian(cursor.getString(2));
+                wallet.setId_vi(cursor.getInt(3));
+                return wallet;
+            }
+            else return  null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public void InsertChiTieu(Transaction_Entity tran){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("SOTIEN",tran.getSotien());
+            values.put("NGAYGIAODICH",tran.getNgaygiaodich());
+            values.put("MOTA",tran.getMota());
+            values.put("ID_CT_LOAI",tran.getId_cr_loai());
+            values.put("ID_CT_VI",tran.getId_ct_vi());
+            db.insert("CHITIEU",null,values);
+            db.close();
+            Log.d("data","Insert CHITIEU");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Log.d("data","Insert CHITIEU Fail");
+        }
+    }
+    public void InsertCT_VI(WalletDetail_Entity wd){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("TIENHIENTAI",wd.getSotien());
+            values.put("THOIGIAN",wd.getThoigian());
+            values.put("ID_TAIKHOAN",wd.getId_vi());
+            db.insert("CT_VI",null,values);
+            db.close();
+            Log.d("data","Insert CT_VI");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Log.d("data","Insert CT_VI Fail");
+        }
+    }
+    public List<WalletDetail_Entity> SelecAllWalletDetail(int id_vi){
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            List<WalletDetail_Entity> words = new ArrayList<>();
+            String sql = "SELECT * FROM CT_VI WHERE ID_TAIKHOAN = "+id_vi;
+            Cursor cursor = db.rawQuery(sql, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    words.add(new WalletDetail_Entity(cursor.getInt(0), cursor.getInt(1), cursor.getString(2),cursor.getInt(3)));
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
+            return words;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public Transaction_Entity selectTranbyID_CTVI(int id_ct_vi){
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            String sql = "Select * From CHITIEU WHERE ID_CT_VI = "+id_ct_vi;
+            Cursor cursor = db.rawQuery(sql,null);
+            Transaction_Entity acc = new Transaction_Entity();
+            if(cursor!=null && cursor.getCount() > 0){
+                cursor.moveToFirst();
+                acc.setId(cursor.getInt(0));
+                acc.setSotien(cursor.getInt(1));
+                acc.setNgaygiaodich(cursor.getString(2));
+                acc.setMota(cursor.getString(3));
+                acc.setId_cr_loai(cursor.getInt(4));
+                acc.setId_ct_vi(cursor.getInt(5));
+                return acc;
+            }
+            else return  null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public List<Transaction_Entity> selectAllTran(){
+        try{
+            SQLiteDatabase db = this.getReadableDatabase();
+            List<Transaction_Entity> words = new ArrayList<>();
+            String sql = "SELECT * FROM CHITIEU";
+            Cursor cursor = db.rawQuery(sql, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    words.add(new Transaction_Entity(cursor.getInt(0), cursor.getInt(1), cursor.getString(2),cursor.getString(3),cursor.getInt(4),cursor.getInt(5)));
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
+            return words;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

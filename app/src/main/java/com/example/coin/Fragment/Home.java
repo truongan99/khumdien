@@ -10,12 +10,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.coin.Activity.Login;
 import com.example.coin.Adapter.ViewPaggerAdapterTransaction;
@@ -23,6 +25,9 @@ import com.example.coin.R;
 import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,11 +98,28 @@ public class Home extends Fragment {
     private void initTab(View view){
         viewPager =  view.findViewById(R.id.view_pagger_transaction);
         tabLayout =  view.findViewById(R.id.tab_layout_transaction_log);
-        ViewPaggerAdapterTransaction adapter = new ViewPaggerAdapterTransaction(getChildFragmentManager(),FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        ViewPaggerAdapterTransaction adapter = new ViewPaggerAdapterTransaction(getChildFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         TabLayout.Tab tab = tabLayout.getTabAt(10);
         tab.select();
+        viewPager.setOffscreenPageLimit(3);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
 }

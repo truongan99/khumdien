@@ -3,7 +3,7 @@ package com.example.coin.Bean;
 import java.util.Date;
 
 public class Account_Entity {
-    Integer ID;
+    int ID;
     String password;
     String email;
     String tenvi;
@@ -21,6 +21,18 @@ public class Account_Entity {
         this.tenvi = tenvi;
         this.don_vi_tien = don_vi_tien;
         this.hinhanh_vi = hinhanh_vi;
+    }
+
+    public Account_Entity(int ID, String email, String tenvi, String don_vi_tien, Integer hinhanh_vi) {
+        this.ID = ID;
+        this.email = email;
+        this.tenvi = tenvi;
+        this.don_vi_tien = don_vi_tien;
+        this.hinhanh_vi = hinhanh_vi;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public Integer getID() {

@@ -3,16 +3,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.Transaction">
-    <TextView
-        android:layout_width="wrap_content"
+    tools:context=".Fragment.Transaction"
+    android:paddingTop="30dp"
+    android:background="@color/bg"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="+\nADD Transaction"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_marginTop="18dp"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collect"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="@color/circleColer"/>
+            <TextView
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1.000.000"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="@color/circleColer"
+                android:id="@+id/tv_collect_money"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pay out"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_red_light"/>
+            <TextView
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1.000.000"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_red_light"
+                android:id="@+id/tv_payout_money"/>
+        </LinearLayout>
+    </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="105dp"
+        android:id="@+id/lv_all_tran_in_month"
+        android:background="@color/white"
+        android:layout_marginBottom="30dp"
+        />
     <android.widget.Button
         android:layout_width="50dp"
         android:layout_height="50dp"

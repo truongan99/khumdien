@@ -48,6 +48,7 @@ public class ItemAdapter extends BaseAdapter {
             ImageView ivSectionImg = convertView.findViewById(R.id.iv_avt_gr_item);
             tvSectionTitle.setText(( (SectionItem) listItem.get(position)).getName());
             ivSectionImg.setImageResource(( (SectionItem) listItem.get(position)).getHinh());
+
         }
         else
         {
@@ -59,5 +60,13 @@ public class ItemAdapter extends BaseAdapter {
             ivSectionImg.setImageResource(( (EntityItem) listItem.get(position)).getHinh());
         }
         return convertView;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        if(listItem.get(position).isSection()){
+            return false;
+        }
+        else return true;
     }
 }

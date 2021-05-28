@@ -87,8 +87,11 @@ public class AddGroup extends AppCompatActivity {
                     detail.setId_loai(id_gr);
                     AppDB db = new AppDB(getApplicationContext());
                     db.InsertGroup_Detail(detail);
+                    MainActivity.allGroupDe.add(detail);
                     db.close();
                     Toast.makeText(getApplicationContext(),"Thanh cong",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(AddGroup.this,AddTransaction.class);
+                    startActivity(intent);
                     finish();
                 }
             }

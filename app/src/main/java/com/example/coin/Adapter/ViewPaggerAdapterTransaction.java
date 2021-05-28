@@ -16,26 +16,44 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ViewPaggerAdapterTransaction extends FragmentStatePagerAdapter {
-    public ViewPaggerAdapterTransaction(@NonNull @NotNull FragmentManager fm, int behavior) {
-        super(fm, behavior);
+    SimpleDateFormat df = new SimpleDateFormat("MM/yyyy", Locale.getDefault());
+    public ViewPaggerAdapterTransaction( @NotNull FragmentManager fm) {
+        super(fm);
     }
 
+
+
     @NonNull
-    @NotNull
     @Override
     public Fragment getItem(int position) {
-        return new Transaction();
+        String[] str ={""};
+        if(position==10){
+            Date ngayhientai = Calendar.getInstance().getTime();
+            String now = df.format(ngayhientai);
+            str = now.split("/");
+            return Transaction.newInstance(str[0],str[1]);
+        }
+        if(position==11){
+            Calendar nextmonth = Calendar.getInstance();
+            nextmonth.add(Calendar.MONTH,1);
+            String next = df.format(nextmonth.getTime());
+            str = next.split("/");
+            return Transaction.newInstance(str[0],str[1]);
+        }else {
+            str=getPageTitle(position).toString().split("/");
+            return Transaction.newInstance(str[0],str[1]);
+        }
     }
 
     @Override
     public int getCount() {
-        return 12;
+        return initMonth().length;
     }
     private String[] initMonth(){
         String[] monthList = new String[12];
         Date c = Calendar.getInstance().getTime();
         Calendar d = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("MM/yyyy", Locale.getDefault());
+
         monthList[10] = "Now";
         monthList[11] ="Next Month";
         for (int i = 9;i>=0;i--){
@@ -45,8 +63,6 @@ public class ViewPaggerAdapterTransaction extends FragmentStatePagerAdapter {
         }
         return monthList;
     }
-
-    @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         String[] monthList = initMonth();

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.coin.Adapter.EntityItem;
 import com.example.coin.Adapter.GroupAdapter;
@@ -30,6 +31,8 @@ public class SelectGroupDetail extends AppCompatActivity {
     private ListView lv_grd;
     private ImageView iv_add;
     private List<Item_gr> list =  new ArrayList<Item_gr>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,7 @@ public class SelectGroupDetail extends AppCompatActivity {
                 int avt = list.get(position).getHinh();
                 String name = list.get(position).getName();
                 int id_gr = list.get(position).getID();
+                Toast.makeText(getApplicationContext(), "Ma so : "+list.get(position).getID(), Toast.LENGTH_SHORT).show();
                 intent.putExtra("GRD_IMG", avt);
                 intent.putExtra("GRD_NAME",name);
                 intent.putExtra("GRD_ID", id_gr);
@@ -62,29 +66,27 @@ public class SelectGroupDetail extends AppCompatActivity {
         });
     }
     private void setControl() {
-        lv_grd =(ListView) findViewById(R.id.lv_group_de);
         initGroupList();
+        lv_grd =(ListView) findViewById(R.id.lv_group_de);
         ItemAdapter adapter = new ItemAdapter(SelectGroupDetail.this, list);
         lv_grd.setAdapter(adapter);
         iv_add = (ImageView) findViewById(R.id.iv_add_grd);
-    }
-    private void initGroupList(){
 
+    }
+    public void initGroupList(){
         Intent intent = getIntent();
         String type =  intent.getStringExtra("TYPE_GRD");
-        AppDB db = new AppDB(getApplicationContext());
-        List<Group_Entity> listGr = db.getAllGroup(type);
-        List<Group_Detail_Entity> listGrd = db.getAllGroupDe();
-        String sg = String.valueOf(listGr.size());
-        String sgd = String.valueOf(listGrd.size());
-        Log.d("data",sg);
-        Log.d("data",sgd);
+        List<Group_Entity> listGr = new ArrayList<>();
+        for(Group_Entity item : MainActivity.allGroup){
+            if(item.getLoai().equalsIgnoreCase(type)){
+                listGr.add(item);
+            }
+        }
         for (int i=0;i<listGr.size();i++){
             list.add(new SectionItem(listGr.get(i).getTen(),listGr.get(i).getId(),listGr.get(i).getHinh()));
-            for(int j = 0;j<listGrd.size();j++){
-                if(listGr.get(i).getId() == listGrd.get(j).getId_loai()){
-                    list.add(new EntityItem(listGrd.get(j).getTen(),listGrd.get(j).getId(),listGrd.get(j).getHinhanh()));
-                    Log.d("data","ADDD");
+            for(int j = 0;j<MainActivity.allGroupDe.size();j++){
+                if(listGr.get(i).getId() == MainActivity.allGroupDe.get(j).getId_loai()){
+                    list.add(new EntityItem(MainActivity.allGroupDe.get(j).getTen(),MainActivity.allGroupDe.get(j).getId(),MainActivity.allGroupDe.get(j).getHinhanh()));
                 }
             }
         }
