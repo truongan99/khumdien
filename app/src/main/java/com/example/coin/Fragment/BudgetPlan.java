@@ -6,18 +6,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.coin.Activity.AddBudget;
+import com.example.coin.Activity.Login;
 import com.example.coin.Activity.MainActivity;
+import com.example.coin.Adapter.PlanAdapter;
+import com.example.coin.Bean.Plan_Entity;
+import com.example.coin.Database.AppDB;
 import com.example.coin.R;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +42,13 @@ public class BudgetPlan extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    TextView plan_budget_back;
+    TextView plan_budget_back, header_list_re, header_list_ex, txt_add_plan;
+    ListView lv_budget_plan_re, lv_budget_plan_ex;
     Button btn_add_plan_budget;
+
+    ArrayList<Plan_Entity> plan_re = new ArrayList<>();
+    ArrayList<Plan_Entity> plan_ex = new ArrayList<>();
+    PlanAdapter adapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -86,6 +102,72 @@ public class BudgetPlan extends Fragment {
             }
         });
 
+
+        txt_add_plan = view.findViewById(R.id.txt_add_plan);
+
+        header_list_re = view.findViewById(R.id.header_list_re);
+        header_list_re.setVisibility(View.INVISIBLE);
+
+        header_list_ex = view.findViewById(R.id.header_list_ex);
+        header_list_ex.setVisibility(View.INVISIBLE);
+
+        lv_budget_plan_re = view.findViewById(R.id.lv_budget_plan_re);
+        plan_re = new AppDB(getContext()).selectPlanRe();
+        if (!plan_re.isEmpty()) {
+            header_list_re.setVisibility(View.VISIBLE);
+            txt_add_plan.setVisibility(View.INVISIBLE);
+
+            adapter = new PlanAdapter(getContext(), R.layout.plan_items_listview, plan_re, 1, Login.acc_login.getID());
+            lv_budget_plan_re.setAdapter(adapter);
+        }
+
+        lv_budget_plan_re.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BudgetPlanDetail nextFrag = new BudgetPlanDetail().newInstance(plan_re.get(position).getID(),
+                        plan_re.get(position).getMoney(),
+                        plan_re.get(position).getNote(),
+                        plan_re.get(position).getDateStart(),
+                        plan_re.get(position).getDateEnd(),
+                        plan_re.get(position).getId_gr(),
+                        plan_re.get(position).getId_account(), 1);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_main, nextFrag, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        lv_budget_plan_ex = view.findViewById(R.id.lv_budget_plan_ex);
+        plan_ex = new AppDB(getContext()).selectPlanEx();
+        if (!plan_ex.isEmpty()) {
+            header_list_ex.setVisibility(View.VISIBLE);
+            txt_add_plan.setVisibility(View.INVISIBLE);
+
+            adapter = new PlanAdapter(getContext(), R.layout.plan_items_listview, plan_ex, 0, Login.acc_login.getID());
+            lv_budget_plan_ex.setAdapter(adapter);
+        }
+
+        lv_budget_plan_ex.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BudgetPlanDetail nextFrag = new BudgetPlanDetail().newInstance(plan_ex.get(position).getID(),
+                        plan_ex.get(position).getMoney(),
+                        plan_ex.get(position).getNote(),
+                        plan_ex.get(position).getDateStart(),
+                        plan_ex.get(position).getDateEnd(),
+                        plan_ex.get(position).getId_gr(),
+                        plan_ex.get(position).getId_account(), 0);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_main, nextFrag, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        ListUtils.setDynamicHeight(lv_budget_plan_re);
+        ListUtils.setDynamicHeight(lv_budget_plan_ex);
+
         btn_add_plan_budget = view.findViewById(R.id.btn_add_plan_budget);
         btn_add_plan_budget.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,5 +187,25 @@ public class BudgetPlan extends Fragment {
 
     }
 
+    public static class ListUtils {
+        public static void setDynamicHeight(ListView mListView) {
+            ListAdapter mListAdapter = mListView.getAdapter();
+            if (mListAdapter == null) {
+                // when adapter is null
+                return;
+            }
+            int height = 0;
+            int desiredWidth = View.MeasureSpec.makeMeasureSpec(mListView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+            for (int i = 0; i < mListAdapter.getCount(); i++) {
+                View listItem = mListAdapter.getView(i, null, mListView);
+                listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                height += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = mListView.getLayoutParams();
+            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
+            mListView.setLayoutParams(params);
+            mListView.requestLayout();
+        }
+    }
 
 }

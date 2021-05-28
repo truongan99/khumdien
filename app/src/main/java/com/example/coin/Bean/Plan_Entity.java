@@ -74,6 +74,16 @@ public class Plan_Entity {
         this.id_account = id_account;
     }
 
+    public Plan_Entity(Integer ID, String money, String note, String dateStart, String dateEnd, Integer id_gr, Integer id_account) {
+        this.ID = ID;
+        this.money = money;
+        this.note = note;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.id_gr = id_gr;
+        this.id_account = id_account;
+    }
+
     public Plan_Entity() {
     }
 }
